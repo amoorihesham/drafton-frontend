@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { SignUpForm } from "./components/sign-up-form";
 
 export default function SignUpPage() {
   return (
@@ -11,23 +9,7 @@ export default function SignUpPage() {
         <p className="text-sm text-neutral-500 dark:text-neutral-400">Enter your details below to get started</p>
       </div>
 
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="username">Username</Label>
-          <Input id="username" placeholder="janedoe" required />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="jane@example.com" required />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required />
-        </div>
-        <Button className="w-full" size="lg">
-          Create account
-        </Button>
-      </div>
+      <SignUpForm />
 
       <div className="text-center text-sm text-neutral-500 dark:text-neutral-400">
         Already have an account?{" "}

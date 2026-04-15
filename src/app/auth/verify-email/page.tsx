@@ -1,8 +1,11 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MailCheck } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 export default function VerifyEmailPage() {
+  const email = useSearchParams().get("email");
   return (
     <div className="space-y-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-center">
@@ -14,8 +17,9 @@ export default function VerifyEmailPage() {
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight">Check your email</h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          We&apos;ve sent a verification link to <span className="font-medium text-neutral-900 dark:text-white">jane@example.com</span>. 
-          Please check your inbox and click the link to verify your account.
+          We&apos;ve sent a verification link to{" "}
+          <span className="font-medium text-neutral-900 dark:text-white">{email}</span>. Please check your inbox and
+          click the link to verify your account.
         </p>
       </div>
 
@@ -29,7 +33,10 @@ export default function VerifyEmailPage() {
       </div>
 
       <div className="mt-8 text-center text-sm text-neutral-500 dark:text-neutral-400">
-        <Link href="/auth/login" className="font-medium text-neutral-900 border-b border-neutral-900/10 hover:border-neutral-900 dark:text-white dark:border-white/10 dark:hover:border-white transition-colors">
+        <Link
+          href="/auth/login"
+          className="font-medium text-neutral-900 border-b border-neutral-900/10 hover:border-neutral-900 dark:text-white dark:border-white/10 dark:hover:border-white transition-colors"
+        >
           Back to log in
         </Link>
       </div>
