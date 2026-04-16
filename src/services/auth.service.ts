@@ -1,30 +1,19 @@
-import { apiClient } from "@/lib/api-client";
-import { SignUpInput } from "@/lib/validations/auth";
-
-export interface ApiResponse<T = any> {
-  success: boolean;
-  message?: string;
-  data?: T;
-  error?: {
-    code: string;
-    message: string;
-  };
-}
+import { http } from "@/lib/api-client";
+import { ApiSuccessResponse } from "@/types/api.types";
+import {
+  SignUpInput,
+  SignUpResponseData,
+  LoginInput,
+  LoginResponseData,
+} from "@/types/auth.types";
 
 export const authService = {
-  async register(data: SignUpInput) {
-    const response = await apiClient.post<
-      ApiResponse<{
-        id: string;
-        email: string;
-        username: string;
-        role: string;
-        isActive: boolean;
-        isEmailVerified: boolean;
-        createdAt: string;
-        updatedAt: string;
-      }>
-    >("/auth/register", data);
-    return response.data;
+  register(data: SignUpInput): Promise<ApiSuccessResponse<SignUpResponseData>> {
+    return http.post<ApiSuccessResponse<SignUpResponseData>>("/auth/register", data);
+  },
+
+  login(data: LoginInput): Promise<ApiSuccessResponse<LoginResponseData>> {
+    return http.post<ApiSuccessResponse<LoginResponseData>>("/auth/login", data);
   },
 };
+
