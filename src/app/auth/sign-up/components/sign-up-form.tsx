@@ -25,7 +25,6 @@ export function SignUpForm() {
 
       if (response.success) {
         toast.success(response.message);
-        router.push(`/auth/verify-email?email=${response.data.email}`);
       } else {
         toast.error(response.error?.code, { description: response.error?.message });
       }
