@@ -16,8 +16,10 @@ export type SignUpResponseData = {
   email: string;
   username: string;
   role: string;
+  isActive: boolean;
   isEmailVerified: boolean;
   createdAt: string;
+  updatedAt: string;
 };
 
 // Action return type — alias of ApiResponse to prevent silent drift
@@ -35,15 +37,34 @@ export type LoginInput = {
 
 // Response data types (what backend returns in the `data` field)
 export type LoginResponseData = {
+  id: string;
+  email: string;
+  username: string;
+  role: string;
+  isEmailVerified: boolean;
+  createdAt: string;
   accessToken: string;
-  user: {
-    id: string;
-    email: string;
-    username: string;
-    role: string;
-    isEmailVerified: boolean;
-  };
 };
 
 // Action return type
 export type LoginResult = ApiResponse<LoginResponseData>;
+
+// ─── Verify Email ───────────────────────────────────────────────────────────
+
+export type VerifyEmailInput = {
+  email: string;
+  otp: string;
+};
+
+export type VerifyEmailResponseData = {
+  id: string;
+  email: string;
+  username: string;
+  role: string;
+  isActive: boolean;
+  isEmailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type VerifyEmailResult = ApiResponse<VerifyEmailResponseData>;

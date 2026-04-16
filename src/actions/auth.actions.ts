@@ -1,13 +1,15 @@
 "use server";
 
 import { authService } from "@/services/auth.service";
-import { signUpSchema, loginSchema } from "@/lib/validations/auth";
+import { signUpSchema, loginSchema, verifyEmailSchema } from "@/lib/validations/auth";
 import { handleError } from "@/lib/errors/handling";
 import {
   SignUpInput,
   SignUpResult,
   LoginInput,
   LoginResult,
+  VerifyEmailInput,
+  VerifyEmailResult,
 } from "@/types/auth.types";
 
 export async function signUpAction(data: SignUpInput): Promise<SignUpResult> {
@@ -45,6 +47,26 @@ export async function loginAction(data: LoginInput): Promise<LoginResult> {
 
   try {
     return await authService.login(parsed.data);
+  } catch (error: unknown) {
+    return handleError(error);
+  }
+}
+
+export async function verifyEmailAction(data: VerifyEmailInput): Promise<VerifyEmailResult> {
+  const parsed = verifyEmailSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      error: {
+        code: "VALIDATION_ERROR",
+        message: parsed.error.issues[0]?.message || "Invalid input data",
+      },
+    };
+  }
+
+  try {
+    return await authService.verifyEmail(parsed.data);
   } catch (error: unknown) {
     return handleError(error);
   }

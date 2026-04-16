@@ -5,6 +5,8 @@ import {
   SignUpResponseData,
   LoginInput,
   LoginResponseData,
+  VerifyEmailInput,
+  VerifyEmailResponseData,
 } from "@/types/auth.types";
 
 export const authService = {
@@ -15,5 +17,8 @@ export const authService = {
   login(data: LoginInput): Promise<ApiSuccessResponse<LoginResponseData>> {
     return http.post<ApiSuccessResponse<LoginResponseData>>("/auth/login", data);
   },
-};
 
+  verifyEmail(data: VerifyEmailInput): Promise<ApiSuccessResponse<VerifyEmailResponseData>> {
+    return http.post<ApiSuccessResponse<VerifyEmailResponseData>>("/auth/verify-email", data);
+  },
+};
