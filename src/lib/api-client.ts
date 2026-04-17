@@ -10,8 +10,6 @@ const apiClient = axios.create({
 
 // ─── Request interceptor: inject auth token ────────────────────────────────
 apiClient.interceptors.request.use((config) => {
-  // const token = getToken();
-  // if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
