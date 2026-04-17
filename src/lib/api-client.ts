@@ -5,6 +5,7 @@ import type { ApiErrorResponse } from "@/types/api.types";
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3125/api/v1",
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
 // ─── Request interceptor: inject auth token ────────────────────────────────
@@ -37,7 +38,7 @@ apiClient.interceptors.response.use(
       },
     };
     return Promise.reject(fallback);
-  }
+  },
 );
 
 // ─── Typed HTTP helpers ───────────────────────────────────────────────────
@@ -49,9 +50,9 @@ function request<T>(method: string, url: string, data?: unknown): Promise<T> {
 }
 
 export const http = {
-  get:    <T>(url: string)                  => request<T>("get",    url),
-  post:   <T>(url: string, data: unknown)   => request<T>("post",   url, data),
-  put:    <T>(url: string, data: unknown)   => request<T>("put",    url, data),
-  patch:  <T>(url: string, data: unknown)   => request<T>("patch",  url, data),
-  delete: <T>(url: string)                  => request<T>("delete", url),
+  get: <T>(url: string) => request<T>("get", url),
+  post: <T>(url: string, data: unknown) => request<T>("post", url, data),
+  put: <T>(url: string, data: unknown) => request<T>("put", url, data),
+  patch: <T>(url: string, data: unknown) => request<T>("patch", url, data),
+  delete: <T>(url: string) => request<T>("delete", url),
 };

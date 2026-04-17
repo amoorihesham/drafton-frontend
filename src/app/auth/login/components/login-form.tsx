@@ -8,11 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/lib/validations/auth";
-import { loginAction } from "@/actions/auth.actions";
 import { getDeviceId } from "@/lib/device-id";
+import { useSession } from "@/components/providers/AuthProvider";
+import { authService } from "@/services/auth.service";
+import { handleError } from "@/lib/errors/handling";
 
 export function LoginForm() {
   const router = useRouter();
+  const { setUser, user } = useSession();
+  console.log(user);
 
   const form = useForm({
     defaultValues: {
@@ -20,23 +24,19 @@ export function LoginForm() {
       password: "",
     },
     validators: {
-      // loginSchema includes deviceId but it's not in defaultValues — we
-      // inject it at submit time so Zod still validates it.
       onSubmit: loginSchema.omit({ deviceId: true }),
     },
     onSubmit: async ({ value }) => {
-      const response = await loginAction({
-        ...value,
-        deviceId: getDeviceId(),
-      });
-
-      if (response.success) {
-        toast.success("Welcome back!");
-        router.push("/");
-      } else {
-        toast.error(response.error?.code, {
-          description: response.error?.message,
-        });
+      try {
+        const result = await authService.login({ ...value, deviceId: getDeviceId() });
+        toast.success("Login successful");
+        setUser(result.data);
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      } catch (error: unknown) {
+        const e = handleError(error);
+        toast.error(e.error.code, { description: e.error.message });
       }
     },
   });
@@ -65,11 +65,15 @@ export function LoginForm() {
               onChange={(e) => field.handleChange(e.target.value)}
               disabled={form.state.isSubmitting}
             />
-            {field.state.meta.errors ? (
-              <p className="text-sm font-medium text-red-500">
-                {field.state.meta.errors.join(", ")}
-              </p>
-            ) : null}
+            {field.state.meta.errors && (
+              <div className="space-y-1">
+                {field.state.meta.errors.map((error) => (
+                  <p key={error?.message} className="text-sm font-medium text-red-500">
+                    {error?.message}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
         )}
       />
@@ -96,11 +100,15 @@ export function LoginForm() {
               onChange={(e) => field.handleChange(e.target.value)}
               disabled={form.state.isSubmitting}
             />
-            {field.state.meta.errors ? (
-              <p className="text-sm font-medium text-red-500">
-                {field.state.meta.errors.join(", ")}
-              </p>
-            ) : null}
+            {field.state.meta.errors && (
+              <div className="space-y-1">
+                {field.state.meta.errors.map((error) => (
+                  <p key={error?.message} className="text-sm font-medium text-red-500">
+                    {error?.message}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
         )}
       />
@@ -108,12 +116,7 @@ export function LoginForm() {
       <form.Subscribe
         selector={(state) => [state.canSubmit, state.isSubmitting]}
         children={([canSubmit, isSubmitting]) => (
-          <Button
-            type="submit"
-            className="w-full"
-            size="lg"
-            disabled={!canSubmit || isSubmitting}
-          >
+          <Button type="submit" className="w-full" size="lg" disabled={!canSubmit || isSubmitting}>
             {isSubmitting ? "Signing in..." : "Sign in"}
           </Button>
         )}

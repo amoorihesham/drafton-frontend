@@ -11,6 +11,8 @@ import {
   VerifyEmailInput,
   VerifyEmailResult,
 } from "@/types/auth.types";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
 export async function signUpAction(data: SignUpInput): Promise<SignUpResult> {
   const parsed = signUpSchema.safeParse(data);
@@ -71,3 +73,18 @@ export async function verifyEmailAction(data: VerifyEmailInput): Promise<VerifyE
     return handleError(error);
   }
 }
+
+export const getCurrentUser = async () => {
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("access_token");
+
+  if (!token) return null;
+  try {
+    const decode = jwt.decode(token?.value!);
+    console.log(decode, "SERVER_SESSION");
+
+    return decode;
+  } catch (error) {
+    return null;
+  }
+};

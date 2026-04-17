@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { LoginForm } from "./components/login-form";
+import { getCurrentUser } from "@/actions/auth.actions";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const user = await getCurrentUser();
+  console.log(user);
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="space-y-2 text-center lg:text-left">
         <h1 className="text-3xl font-semibold tracking-tight">Welcome back</h1>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          Enter your email to sign in to your account
-        </p>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">Enter your email to sign in to your account</p>
       </div>
 
       <LoginForm />
@@ -46,4 +48,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
