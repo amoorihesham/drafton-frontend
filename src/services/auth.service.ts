@@ -1,24 +1,21 @@
 import { http } from "@/lib/api-client";
 import { ApiSuccessResponse } from "@/types/api.types";
-import {
-  SignUpInput,
-  SignUpResponseData,
-  LoginInput,
-  LoginResponseData,
-  VerifyEmailInput,
-  VerifyEmailResponseData,
-} from "@/types/auth.types";
+import { SignUpInput, LoginInput, VerifyEmailInput, User, LoggedInUser } from "@/types/auth.types";
 
 export const authService = {
-  register(data: SignUpInput): Promise<ApiSuccessResponse<SignUpResponseData>> {
-    return http.post<ApiSuccessResponse<SignUpResponseData>>("/auth/register", data);
+  register(data: SignUpInput): Promise<ApiSuccessResponse<User>> {
+    return http.post<ApiSuccessResponse<User>>("/auth/register", data);
   },
 
-  login(data: LoginInput): Promise<ApiSuccessResponse<LoginResponseData>> {
-    return http.post<ApiSuccessResponse<LoginResponseData>>("/auth/login", data);
+  login(data: LoginInput): Promise<ApiSuccessResponse<LoggedInUser>> {
+    return http.post<ApiSuccessResponse<LoggedInUser>>("/auth/login", data);
   },
 
-  verifyEmail(data: VerifyEmailInput): Promise<ApiSuccessResponse<VerifyEmailResponseData>> {
-    return http.post<ApiSuccessResponse<VerifyEmailResponseData>>("/auth/verify-email", data);
+  logout(userId: string, deviceId: string): Promise<ApiSuccessResponse<void>> {
+    return http.post<ApiSuccessResponse<void>>(`/auth/logout/${userId}`, { deviceId });
+  },
+
+  verifyEmail(data: VerifyEmailInput): Promise<ApiSuccessResponse<User>> {
+    return http.post<ApiSuccessResponse<User>>("/auth/verify-email", data);
   },
 };

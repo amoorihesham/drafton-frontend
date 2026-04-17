@@ -9,14 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/lib/validations/auth";
 import { getDeviceId } from "@/lib/device-id";
-import { useSession } from "@/components/providers/AuthProvider";
 import { authService } from "@/services/auth.service";
 import { handleError } from "@/lib/errors/handling";
 
 export function LoginForm() {
   const router = useRouter();
-  const { setUser, user } = useSession();
-  console.log();
 
   const form = useForm({
     defaultValues: {
@@ -30,10 +27,8 @@ export function LoginForm() {
       try {
         const result = await authService.login({ ...value, deviceId: getDeviceId() });
         toast.success("Login successful");
-        setUser(result.data);
-        setTimeout(() => {
-          router.push("/");
-        }, 2000);
+
+        router.push("/");
       } catch (error: unknown) {
         const e = handleError(error);
         toast.error(e.error.code, { description: e.error.message });
