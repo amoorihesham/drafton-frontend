@@ -1,21 +1,18 @@
 // providers/session-provider.tsx
 "use client";
 
-import { getCurrentUser } from "@/actions/auth.actions";
+import { getCurrentUser } from "@/lib/auth";
+import { LoggedInUser } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const SessionContext = createContext<{
-  user: any;
-  setUser: (user: any) => void;
+  user: LoggedInUser | null;
+  setUser: (user: LoggedInUser | null) => void;
   isLoading: boolean;
-}>({
-  user: null,
-  setUser: () => {},
-  isLoading: true,
-});
+} | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<LoggedInUser | null>(null);
 
   const initialzeUser = async () => {
     const user = await getCurrentUser();

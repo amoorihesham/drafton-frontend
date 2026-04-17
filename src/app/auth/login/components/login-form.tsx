@@ -16,7 +16,7 @@ import { handleError } from "@/lib/errors/handling";
 export function LoginForm() {
   const router = useRouter();
   const { setUser, user } = useSession();
-  console.log(user);
+  console.log();
 
   const form = useForm({
     defaultValues: {
