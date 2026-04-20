@@ -1,7 +1,18 @@
 import Link from "next/link";
 import { SignUpForm } from "./components/sign-up-form";
+import { RegistrationSuccess } from "./components/registration-success";
 
-export default function SignUpPage() {
+export default async function SignUpPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ registered?: string; email?: string }>;
+}) {
+  const { registered, email } = await searchParams;
+
+  if (registered === "true" && email) {
+    return <RegistrationSuccess email={decodeURIComponent(email)} />;
+  }
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="space-y-2 text-center lg:text-left">

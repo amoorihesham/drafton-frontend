@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "@tanstack/react-form";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,7 +24,7 @@ export function SignUpForm() {
       const response = await signUpAction(value);
 
       if (response.success) {
-        toast.success(response.message);
+        router.replace(`/auth/sign-up?registered=true&email=${encodeURIComponent(value.email)}`);
       } else {
         toast.error(response.error?.code, { description: response.error?.message });
       }
