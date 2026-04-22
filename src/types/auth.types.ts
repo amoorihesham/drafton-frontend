@@ -1,4 +1,6 @@
 import { ApiResponse } from "./api.types";
+import { Plan } from "./plans.type";
+import { Subscription } from "./subscriptions.types";
 
 export type User = {
   id: string;
@@ -18,7 +20,6 @@ export type SignUpInput = {
 };
 
 export type SignUpResult = ApiResponse<User>;
-
 
 export type LoggedInUser = User & { accessToken: string };
 
@@ -40,3 +41,12 @@ export type VerifyEmailInput = {
 };
 
 export type VerifyEmailResult = ApiResponse<User>;
+
+export type UserProfileResponse = {
+  user: User;
+  subscription: Subscription;
+  plan: Plan;
+  proposalsCount: number;
+  maxDocumentsPerDay: number;
+  percentageUsage: number;
+};

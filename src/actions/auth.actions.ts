@@ -10,7 +10,10 @@ import {
   LoginResult,
   VerifyEmailInput,
   VerifyEmailResult,
+  UserProfileResponse,
 } from "@/types/auth.types";
+import { getCurrentUser } from "@/lib/auth";
+import { userService } from "@/services/user.service";
 
 export async function signUpAction(data: SignUpInput): Promise<SignUpResult> {
   const parsed = signUpSchema.safeParse(data);
@@ -71,3 +74,11 @@ export async function verifyEmailAction(data: VerifyEmailInput): Promise<VerifyE
     return handleError(error);
   }
 }
+
+export const getUserProfile = async (): Promise<UserProfileResponse> => {
+  const user = await getCurrentUser();
+
+  const data = await userService.getUserProfile(user!.id);
+
+  return data.data;
+};

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MailCheck } from "lucide-react";
 import { VerificationComponent } from "./_components/VerificationComponent";
+import { Suspense } from "react";
 
 export default function VerifyEmailPage() {
   return (
@@ -18,7 +19,9 @@ export default function VerifyEmailPage() {
           account.
         </p>
       </div>
-      <VerificationComponent />
+      <Suspense fallback={<p>Loading....</p>}>
+        <VerificationComponent />
+      </Suspense>
 
       <div className="mt-8 text-center text-sm text-neutral-500 dark:text-neutral-400">
         <Link

@@ -10,10 +10,17 @@ export function Navbar() {
         <div className="text-xl font-bold tracking-tight">
           <Link href="/">Drafton</Link>
         </div>
-        <div className="flex items-center gap-4">
-          <Suspense fallback={<Button>Loading...</Button>}>
-            <Authentication />
-          </Suspense>
+        <div className="flex items-center gap-6">
+          <nav className="hidden sm:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+            <Link href="/pricing" className="hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">
+              Pricing
+            </Link>
+          </nav>
+          <div className="flex items-center gap-4">
+            <Suspense fallback={<Button>Loading...</Button>}>
+              <Authentication />
+            </Suspense>
+          </div>
         </div>
       </div>
     </nav>

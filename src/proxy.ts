@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const authRoutes = ["/auth/login", "/auth/register", "/auth/verify-email"];
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = ["/dashboard", "/profile"];
 
 export default function proxy(req: NextRequest) {
   const token = req.cookies.get("access_token")?.value;
